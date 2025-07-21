@@ -1,0 +1,183 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 10px;
+}
+
+.quotation-container {
+  max-width: 1100px;
+  margin: auto;
+  border: 1px solid #000;
+  padding: 15px;
+}
+h4
+{
+    margin-left: 65px;
+}
+.header {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #000;
+  margin-bottom: 10px;
+}
+
+.logo img {
+  height: 80px;
+  margin-right: 20px;
+}
+
+.company-info {
+  flex: 1;
+  text-align: center;
+}
+
+.note-section {
+    margin-top: 20px;
+    text-align: left;
+    font-size: 20px;
+    max-width: 60%;
+    padding-left: 10px;
+    font-style: italic; /* Makes the text italic */
+    word-wrap: break-word;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.meta input {
+  width: 200px;
+}
+
+#productTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+#productTable th,
+#productTable td {
+  border: 1px solid #000;
+  padding: 6px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#productTable img {
+  height: 80px;
+  width: 80px;
+  object-fit: contain;
+}
+
+
+
+textarea.description-field {
+  width: 100%;           /* Keep width fixed */
+  min-height: 30px;
+  border: none;
+  resize: none;
+  overflow: hidden;      /* OK for screen */
+  font-size: 13px;
+  font-family: inherit;
+  background: transparent;
+  text-align: left;
+  display: block;
+  white-space: pre-wrap; /* Preserve line breaks */
+}
+
+.pdf-mode textarea.description-field {
+  overflow: visible !important;
+}
+
+input[type="number"] {
+  width: 60px;
+  text-align: center;
+}
+
+input[type="text"][readonly] {
+  background: transparent;
+  border: none;
+  width: 100%;
+  font-size: 13px;
+}
+
+.controls {
+  
+  margin-top: 15px;
+}
+
+.top-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.total-display {
+  flex: 1;
+  text-align: right;
+  text-align: right;
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+button {
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.pdf-mode .no-print {
+  display: none !important;
+   }
+
+@media print {
+ 
+  
+  body {
+    margin: 0;
+  }
+
+  .quotation-container {
+    border: none;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 15px;
+  }
+
+  
+  .print-total {
+    display: block;
+    text-align: right;
+    width: 100%;
+    font-size: 18px;
+  }
+
+  .total-display {
+    text-align: right;
+    width: 100%;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .button-group {
+    display: none;
+  }
+
+  /* Optional: Add a rule for when PDF is generating, though the button-specific .no-print should handle it */
+body.pdf-generating .no-print {
+    display: none !important;
+}
+}
