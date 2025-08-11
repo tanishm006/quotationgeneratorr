@@ -121,6 +121,77 @@ function printQuotation() {
     window.print();
   }, 500);
 }
+// helper to auto-resize textarea
+function autoResize() {
+  this.style.height = 'auto';
+  this.style.height = this.scrollHeight + 'px';
+}
+
+// helper to create a textarea matching your original setup
+function createDescriptionTextarea(value = '') {
+  const textarea = document.createElement('textarea');
+  textarea.className = 'description-field';
+  textarea.value = value;
+  textarea.style.width = '100%';
+  textarea.style.minHeight = '30px';
+  textarea.style.border = 'none';
+  textarea.style.resize = 'none';
+  textarea.style.overflow = 'hidden';
+  textarea.style.fontSize = '13px';
+  textarea.style.fontFamily = 'inherit';
+  textarea.style.background = 'transparent';
+  textarea.style.textAlign = 'left';
+  textarea.addEventListener('input', autoResize);
+
+  // set initial height to fit content
+  requestAnimationFrame(() => {
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  });
+
+  return textarea;
+}
+
+// replace old printQuotation() with this
+function printQuotation() {
+  // 1) collect current textareas and their values
+  const textareas = Array.from(document.querySelectorAll('.description-field'));
+  if (textareas.length === 0) {
+    // nothing to replace — just print
+    window.print();
+    return;
+  }
+
+  const originalValues = textareas.map(t => t.value);
+  const replacedDivs = [];
+
+  // 2) replace each textarea with a div that expands naturally when printing
+  textareas.forEach((ta, i) => {
+    const div = document.createElement('div');
+    div.className = 'print-description';
+    div.style.whiteSpace = 'pre-wrap';
+    div.style.fontSize = '13px';
+    div.style.padding = '4px 0';
+    div.textContent = originalValues[i];
+
+    ta.parentNode.replaceChild(div, ta);
+    replacedDivs.push(div);
+  });
+
+  // 3) give browser a moment to reflow, then print
+  setTimeout(() => {
+    window.print();
+
+    // 4) restore the original textareas after printing
+    replacedDivs.forEach((div, idx) => {
+      const ta = createDescriptionTextarea(originalValues[idx]);
+      div.parentNode.replaceChild(ta, div);
+    });
+
+    // recalc totals/heights just in case
+    calculateTotal();
+  }, 150); // 150ms should be enough for DOM updates; increase if needed
+}
 
 function saveQuotation() {
   const partyName = document.getElementById("partyName").value;
@@ -253,7 +324,6 @@ function savepdf() {
     alert('PDF saved successfully!');
   });
 }
-
 
 
 
