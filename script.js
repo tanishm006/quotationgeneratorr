@@ -115,12 +115,7 @@ function calculateTotal() {
   document.getElementById("totalAmount").textContent = total.toFixed(2);
 }
 
-function printQuotation() {
-  saveQuotation();  // Automatically save before printing
-  setTimeout(() => {
-    window.print();
-  }, 500);
-}
+
 // helper to auto-resize textarea
 function autoResize() {
   this.style.height = 'auto';
@@ -324,6 +319,7 @@ function savepdf() {
     alert('PDF saved successfully!');
   });
 }
+
 
 
 
