@@ -141,7 +141,19 @@ button {
 
 @media print {
  
-  
+  td {
+    height: auto !important;
+    overflow: visible !important;
+    white-space: pre-wrap !important; /* preserve line breaks */
+  }
+
+  td div.print-description {
+    min-height: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    white-space: pre-wrap !important;
+    display: block;
+  }
   body {
     margin: 0;
   }
@@ -191,3 +203,4 @@ button {
 
 
 }
+
