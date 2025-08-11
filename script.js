@@ -26,7 +26,7 @@ function addProduct() {
   const table = document.querySelector("#productTable tbody");
   const row = document.createElement("tr");
 
-  row.innerHTML = `
+  row.innerHTML = 
     <td>${productCount}</td>
     <td class="image-cell"></td>
     <td><textarea class="description-field"></textarea></td>
@@ -35,7 +35,7 @@ function addProduct() {
     <td><input type="number" value="0" min="0" max="100" onchange="calculateTotal()"></td>
     <td class="amount">0.00</td>
     <td class="no-print"><button onclick="removeProduct(this)">Remove</button></td>
-  `;
+  ;
 
   // In addProduct():
 const descField = row.querySelector(".description-field");
@@ -51,8 +51,8 @@ descField.addEventListener("input", function () {
   select.classList.add("product-select");
 
   select.innerHTML =
-    `<option value="">Select Product</option>` +
-    products.map((p, i) => `<option value="${i}">${p.name}</option>`).join("");
+    <option value="">Select Product</option> +
+    products.map((p, i) => <option value="${i}">${p.name}</option>).join("");
 
   // ✅ When a product is selected, autofill description and rate
   select.onchange = function () {
@@ -60,7 +60,7 @@ descField.addEventListener("input", function () {
     if (!selected) return;
 
     // Show image
-    row.querySelector(".image-cell").innerHTML = `<img src="${selected.image}" alt="Product">`;
+    row.querySelector(".image-cell").innerHTML = <img src="${selected.image}" alt="Product">;
 
     // Autofill description and resize
     descField.value = selected.description;
@@ -115,7 +115,12 @@ function calculateTotal() {
   document.getElementById("totalAmount").textContent = total.toFixed(2);
 }
 
-
+function printQuotation() {
+  saveQuotation();  // Automatically save before printing
+  setTimeout(() => {
+    window.print();
+  }, 500);
+}
 // helper to auto-resize textarea
 function autoResize() {
   this.style.height = 'auto';
@@ -239,7 +244,7 @@ function saveQuotation() {
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = `Quotation_${partyName}_${date}.json`;
+  a.download = Quotation_${partyName}_${date}.json;
   a.click();
 
   URL.revokeObjectURL(url);
@@ -267,7 +272,7 @@ function savepdf() {
 
   const opt = {
     margin: 0.3,
-    filename: `Quotation_${document.getElementById("partyName").value || "Customer"}_${document.getElementById("date").value || "Date"}.pdf`,
+    filename: Quotation_${document.getElementById("partyName").value || "Customer"}_${document.getElementById("date").value || "Date"}.pdf,
     image: { type: 'jpeg', quality: 0.98 },
     html2canvas: { scale: 2 },
     jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
@@ -312,17 +317,10 @@ function savepdf() {
     // ✅ Download PDF instead of opening in new tab
     const a = document.createElement('a');
     a.href = pdfUrl;
-    a.download = `Quotation_${document.getElementById("partyName").value || "Customer"}_${document.getElementById("date").value || "Date"}.pdf`;
+    a.download = Quotation_${document.getElementById("partyName").value || "Customer"}_${document.getElementById("date").value || "Date"}.pdf;
     a.click();
 
     // ✅ Show success message
     alert('PDF saved successfully!');
   });
 }
-
-
-
-
-
-
-
