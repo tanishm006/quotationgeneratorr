@@ -156,6 +156,15 @@ button {
     align-items: center;
     margin-top: 15px;
   }
+  textarea.description-field {
+    display: block;
+    white-space: pre-wrap;
+    border: none;
+    background: transparent;
+    height: auto !important;
+    overflow: visible !important;
+    resize: none;
+  }
 
   
   .print-total {
@@ -172,14 +181,13 @@ button {
     margin-bottom: 10px;
   }
 
+  
+  .no-print {
+    display: none !important;
+  }
   .button-group {
-    display: none;
+    display: none !important;
   }
 
-  /* Optional: Add a rule for when PDF is generating, though the button-specific .no-print should handle it */
-body.pdf-generating .no-print {
-    display: none !important;
-}
-}
 
-
+}
