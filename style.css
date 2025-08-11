@@ -140,8 +140,6 @@ button {
    }
 
 @media print {
- 
-  
   body {
     margin: 0;
   }
@@ -157,7 +155,6 @@ button {
     margin-top: 15px;
   }
 
-  
   .print-total {
     display: block;
     text-align: right;
@@ -172,12 +169,10 @@ button {
     margin-bottom: 10px;
   }
 
-  .button-group {
-    display: none;
-  }
-
-  /* Optional: Add a rule for when PDF is generating, though the button-specific .no-print should handle it */
-body.pdf-generating .no-print {
+  .button-group,
+  .no-print {
     display: none !important;
+  }
 }
-}
+
+
