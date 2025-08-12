@@ -213,14 +213,18 @@ function saveQuotation() {
 
 function savepdf() {
   const element = document.querySelector('.quotation-container');
-  
-  // Hide buttons & remove column
   document.body.classList.add('pdf-mode');
+
+  // Force container to A4 size in px (1in = 96px, A4 width = 8.27in)
+  const originalStyle = element.getAttribute('style') || '';
+  element.style.width = '794px';  // 8.27in × 96px
+  element.style.minHeight = '1123px'; // 11.69in × 96px
+  element.style.boxSizing = 'border-box';
+  element.style.margin = '0 auto';
 
   // Convert textareas to divs so they expand fully
   const originalTextareas = [];
   const textareas = document.querySelectorAll('.description-field');
-
   textareas.forEach(textarea => {
     originalTextareas.push(textarea.value);
     const div = document.createElement('div');
@@ -229,20 +233,18 @@ function savepdf() {
     div.style.fontSize = '13px';
     div.style.padding = '4px';
     div.style.height = "auto";
-    div.style.minHeight = "unset";
     div.style.overflow = "visible";
     div.textContent = textarea.value;
     textarea.replaceWith(div);
   });
 
-  // ✅ Options for full-page A4 PDF
   const opt = {
-    margin: [0.3, 0.3, 0.3, 0.3], // top, left, bottom, right (inches)
+    margin: [0.3, 0.3, 0.3, 0.3],
     filename: `Quotation_${document.getElementById("partyName").value || "Customer"}_${document.getElementById("date").value || "Date"}.pdf`,
     image: { type: 'jpeg', quality: 1 },
     html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
     jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
-    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] } // Prevents cuts
+    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
   };
 
   html2pdf().set(opt).from(element).save().then(() => {
@@ -272,9 +274,11 @@ function savepdf() {
       });
     });
 
-    // Show buttons back
+    // Restore original style & show buttons again
+    element.setAttribute('style', originalStyle);
     document.body.classList.remove('pdf-mode');
   });
 }
+
 
 
