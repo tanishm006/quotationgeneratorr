@@ -148,7 +148,14 @@ button {
   vertical-align: top;
   white-space: normal;
 }
+.pdf-mode tr {
+  page-break-inside: avoid;
+}
 
+.pdf-mode table {
+  width: 100%;
+  table-layout: auto;
+}
 @media print {
  
  
@@ -201,6 +208,7 @@ button {
 
 
 }
+
 
 
 
