@@ -211,78 +211,7 @@ function saveQuotation() {
   alert("Quotation saved successfully!");
 }
 
-function savepdf() {
-  const element = document.querySelector('.quotation-container');
-  
-  // Add PDF mode to hide buttons
-  document.body.classList.add('pdf-mode');
 
-  // Save original style
-  const originalStyle = element.getAttribute('style') || '';
-
-  // Force A4 size in pixels (96px per inch)
-  element.style.width = '794px';  // 8.27 in × 96
-  element.style.minHeight = '1123px'; // 11.69 in × 96
-  element.style.margin = '0 auto';
-  element.style.boxSizing = 'border-box';
-
-  // Convert textareas to divs for proper height
-  const originalTextareas = [];
-  const textareas = element.querySelectorAll('.description-field');
-  textareas.forEach(textarea => {
-    originalTextareas.push(textarea.value);
-    const div = document.createElement('div');
-    div.textContent = textarea.value;
-    div.style.whiteSpace = 'pre-wrap';
-    div.style.fontSize = '13px';
-    div.style.textAlign = 'left';
-    div.style.padding = '4px';
-    div.style.height = 'auto';
-    div.style.overflow = 'visible';
-    textarea.replaceWith(div);
-  });
-
-  const opt = {
-    margin: [0.3, 0.3, 0.3, 0.3], // inches
-    filename: `Quotation_${document.getElementById("partyName").value || "Customer"}_${document.getElementById("date").value || "Date"}.pdf`,
-    image: { type: 'jpeg', quality: 1 },
-    html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
-    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
-    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] } // ensures clean splits
-};
-
-
-  // Generate PDF
-  html2pdf().set(opt).from(element).save().then(() => {
-    // Restore textareas
-    const divs = element.querySelectorAll('td div');
-    divs.forEach((div, index) => {
-      const textarea = document.createElement('textarea');
-      textarea.className = 'description-field';
-      textarea.value = originalTextareas[index];
-      textarea.style.width = '100%';
-      textarea.style.minHeight = '30px';
-      textarea.style.border = 'none';
-      textarea.style.resize = 'none';
-      textarea.style.overflow = 'hidden';
-      textarea.style.fontSize = '13px';
-      textarea.style.fontFamily = 'inherit';
-      textarea.style.background = 'transparent';
-      textarea.style.textAlign = 'left';
-      textarea.addEventListener('input', function () {
-        this.style.height = 'auto';
-        this.style.height = this.scrollHeight + 'px';
-      });
-      div.replaceWith(textarea);
-      textarea.style.height = 'auto';
-      textarea.style.height = textarea.scrollHeight + 'px';
-    });
-
-    // Restore original style
-    element.setAttribute('style', originalStyle);
-    document.body.classList.remove('pdf-mode');
-  });
-}
 
 
 
