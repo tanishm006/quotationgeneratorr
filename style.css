@@ -139,6 +139,11 @@ button {
   display: none !important;
    }
 
+.pdf-mode .quotation-container {
+  width: 210mm !important;
+  min-height: 297mm !important;
+}
+
 @media print {
  
  
@@ -191,5 +196,6 @@ button {
 
 
 }
+
 
 
