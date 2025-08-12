@@ -217,7 +217,7 @@ function savepdf() {
 
   // Force container to A4 size in px (1in = 96px, A4 width = 8.27in)
   const originalStyle = element.getAttribute('style') || '';
-  element.style.width = '900px';  // 8.27in × 96px
+  element.style.width = '794px';  // 8.27in × 96px
   element.style.minHeight = '1123px'; // 11.69in × 96px
   element.style.boxSizing = 'border-box';
   element.style.margin = '0 auto';
