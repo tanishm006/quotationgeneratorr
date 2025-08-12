@@ -140,8 +140,13 @@ button {
    }
 
 .pdf-mode .quotation-container {
-  width: 210mm !important;
-  min-height: 297mm !important;
+  width: 794px !important;
+  min-height: 1123px !important;
+}
+
+.pdf-mode td {
+  vertical-align: top;
+  white-space: normal;
 }
 
 @media print {
@@ -196,6 +201,7 @@ button {
 
 
 }
+
 
 
 
