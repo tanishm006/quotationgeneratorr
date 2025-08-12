@@ -213,33 +213,38 @@ function saveQuotation() {
 
 function savepdf() {
   const element = document.querySelector('.quotation-container');
+  
+  // Add PDF mode to hide buttons
   document.body.classList.add('pdf-mode');
 
-  // Force container to A4 size in px (1in = 96px, A4 width = 8.27in)
+  // Save original style
   const originalStyle = element.getAttribute('style') || '';
-  element.style.width = '794px';  // 8.27in × 96px
-  element.style.minHeight = '1123px'; // 11.69in × 96px
-  element.style.boxSizing = 'border-box';
-  element.style.margin = '0 auto';
 
-  // Convert textareas to divs so they expand fully
+  // Force A4 size in pixels (96px per inch)
+  element.style.width = '794px';  // 8.27 in × 96
+  element.style.minHeight = '1123px'; // 11.69 in × 96
+  element.style.margin = '0 auto';
+  element.style.boxSizing = 'border-box';
+
+  // Convert textareas to divs for proper height
   const originalTextareas = [];
-  const textareas = document.querySelectorAll('.description-field');
+  const textareas = element.querySelectorAll('.description-field');
   textareas.forEach(textarea => {
     originalTextareas.push(textarea.value);
     const div = document.createElement('div');
-    div.style.textAlign = 'left';
+    div.textContent = textarea.value;
     div.style.whiteSpace = 'pre-wrap';
     div.style.fontSize = '13px';
+    div.style.textAlign = 'left';
     div.style.padding = '4px';
-    div.style.height = "auto";
-    div.style.overflow = "visible";
-    div.textContent = textarea.value;
+    div.style.height = 'auto';
+    div.style.overflow = 'visible';
     textarea.replaceWith(div);
   });
 
+  // PDF options
   const opt = {
-    margin: [0.3, 0.3, 0.3, 0.3],
+    margin: [0.3, 0.3, 0.3, 0.3], // in inches
     filename: `Quotation_${document.getElementById("partyName").value || "Customer"}_${document.getElementById("date").value || "Date"}.pdf`,
     image: { type: 'jpeg', quality: 1 },
     html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
@@ -247,9 +252,10 @@ function savepdf() {
     pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
   };
 
+  // Generate PDF
   html2pdf().set(opt).from(element).save().then(() => {
     // Restore textareas
-    const divs = document.querySelectorAll('.quotation-container td div');
+    const divs = element.querySelectorAll('td div');
     divs.forEach((div, index) => {
       const textarea = document.createElement('textarea');
       textarea.className = 'description-field';
@@ -268,17 +274,17 @@ function savepdf() {
         this.style.height = this.scrollHeight + 'px';
       });
       div.replaceWith(textarea);
-      requestAnimationFrame(() => {
-        textarea.style.height = 'auto';
-        textarea.style.height = textarea.scrollHeight + 'px';
-      });
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
     });
 
-    // Restore original style & show buttons again
+    // Restore original style
     element.setAttribute('style', originalStyle);
     document.body.classList.remove('pdf-mode');
   });
 }
+
+
 
 
 
