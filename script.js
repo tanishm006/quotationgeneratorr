@@ -242,15 +242,15 @@ function savepdf() {
     textarea.replaceWith(div);
   });
 
-  // PDF options
   const opt = {
-    margin: [0.3, 0.3, 0.3, 0.3], // in inches
+    margin: [0.3, 0.3, 0.3, 0.3], // inches
     filename: `Quotation_${document.getElementById("partyName").value || "Customer"}_${document.getElementById("date").value || "Date"}.pdf`,
     image: { type: 'jpeg', quality: 1 },
     html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
     jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
-    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-  };
+    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] } // ensures clean splits
+};
+
 
   // Generate PDF
   html2pdf().set(opt).from(element).save().then(() => {
@@ -283,6 +283,7 @@ function savepdf() {
     document.body.classList.remove('pdf-mode');
   });
 }
+
 
 
 
