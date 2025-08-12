@@ -213,8 +213,11 @@ function saveQuotation() {
 
 function savepdf() {
   const element = document.querySelector('.quotation-container');
+  
+  // Hide buttons & remove column
   document.body.classList.add('pdf-mode');
 
+  // Convert textareas to divs so they expand fully
   const originalTextareas = [];
   const textareas = document.querySelectorAll('.description-field');
 
@@ -232,15 +235,18 @@ function savepdf() {
     textarea.replaceWith(div);
   });
 
+  // ✅ Options for full-page A4 PDF
   const opt = {
-    margin: 0.3,
+    margin: [0.3, 0.3, 0.3, 0.3], // top, left, bottom, right (inches)
     filename: `Quotation_${document.getElementById("partyName").value || "Customer"}_${document.getElementById("date").value || "Date"}.pdf`,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    image: { type: 'jpeg', quality: 1 },
+    html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] } // Prevents cuts
   };
 
-  html2pdf().set(opt).from(element).outputPdf('bloburl').then((pdfUrl) => {
+  html2pdf().set(opt).from(element).save().then(() => {
+    // Restore textareas
     const divs = document.querySelectorAll('.quotation-container td div');
     divs.forEach((div, index) => {
       const textarea = document.createElement('textarea');
@@ -266,12 +272,9 @@ function savepdf() {
       });
     });
 
+    // Show buttons back
     document.body.classList.remove('pdf-mode');
-
-    const a = document.createElement('a');
-    a.href = pdfUrl;
-    a.download = `Quotation_${document.getElementById("partyName").value || "Customer"}_${document.getElementById("date").value || "Date"}.pdf`;
-    a.click();
-    alert('PDF saved successfully!');
   });
 }
+
+
